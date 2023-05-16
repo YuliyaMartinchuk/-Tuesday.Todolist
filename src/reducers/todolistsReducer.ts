@@ -35,12 +35,12 @@ export const todolistsReducer = (state: TodolistType[], action: TsarType): Todol
     }
 }
 
-export type TsarType = changeFilterAC | removeTodolistAC | addTodoliststAC | updateTodolistTitleAC
+export type TsarType = changeFilterACType | removeTodolistACType | addTodoliststACType | updateTodolistTitleACType
 
-type changeFilterAC = ReturnType<typeof changeFilterAC>
-type removeTodolistAC = ReturnType<typeof removeTodolistAC>
-type addTodoliststAC = ReturnType<typeof addTodoliststAC>
-type updateTodolistTitleAC = ReturnType<typeof updateTodolistTitleAC>
+type changeFilterACType = ReturnType<typeof changeFilterAC>
+type removeTodolistACType = ReturnType<typeof removeTodolistAC>
+type addTodoliststACType = ReturnType<typeof addTodoliststAC>
+type updateTodolistTitleACType = ReturnType<typeof updateTodolistTitleAC>
 
 
 export const changeFilterAC = (todolistId: string, value: FilterValuesType) => {
@@ -49,6 +49,16 @@ export const changeFilterAC = (todolistId: string, value: FilterValuesType) => {
         payload: {
             todolistId,
             value
+        }
+    } as const
+}
+
+export const updateTodolistTitleAC = (todolistId: string, updateTitle: string) => {
+    return {
+        type: "UPDATE-TODOLIST",
+        payload: {
+            todolistId,
+            updateTitle
         }
     } as const
 }
@@ -73,12 +83,3 @@ export const addTodoliststAC = (newTitle: string, newTodolistID: string) => {
 }
 
 
-export const updateTodolistTitleAC = (todolistId: string, updateTitle: string) => {
-    return {
-        type: "UPDATE-TODOLIST",
-        payload: {
-            todolistId,
-            updateTitle
-        }
-    } as const
-}
