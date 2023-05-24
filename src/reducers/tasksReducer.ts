@@ -1,6 +1,6 @@
 import {AssocTaskType} from "../App";
 import {v1} from "uuid";
-import {addTodoliststAC,removeTodolistAC} from "./todolistsReducer";
+import { addTodoliststACType, removeTodolistACType} from "./todolistsReducer";
 
 export const tasksReducer = (state: AssocTaskType, action: TsarType):AssocTaskType => {
     switch (action.type) {
@@ -37,13 +37,15 @@ export const tasksReducer = (state: AssocTaskType, action: TsarType):AssocTaskTy
             //const newTodolist: TodolistType = {id: newTodolistID, title: newTitle, filter: "all"}
             // setTodolists([newTodolist, ...todolists])
             // setTasks({...tasks,[newTodolistID]:[]})
-            return {...state, [action.payload.newTodolistID]:[]}
+            return {...state, [action.payload.todolistId]:[]}
         }
 
         case "REMOVE-TODOLIST": {
             // setTodolists(todolists.filter(el=>el.id!== todolistId))
             // delete tasks[todolistId]
-            delete state[action.payload.todolistId]
+            let copyState = {...state}
+            delete copyState[action.payload.todolistId]
+            return copyState
         }
 
 
@@ -52,15 +54,12 @@ export const tasksReducer = (state: AssocTaskType, action: TsarType):AssocTaskTy
     }
 }
 
-export type TsarType = removeTaskAC | changeStatusAC | addTaskAC | addTodoliststAC | updateTaskAC | removeTodolistAC
+export type TsarType = removeTaskACType | changeStatusACType | addTaskACType | updateTaskACType | addTodoliststACType  | removeTodolistACType
 
-type removeTaskAC = ReturnType<typeof removeTaskAC>
-type changeStatusAC = ReturnType<typeof changeStatusAC>
-type addTaskAC = ReturnType<typeof addTaskAC>
-type updateTaskAC = ReturnType<typeof updateTaskAC>
-
-type addTodoliststAC = ReturnType<typeof addTodoliststAC>
-type removeTodolistAC = ReturnType<typeof removeTodolistAC>
+type removeTaskACType = ReturnType<typeof removeTaskAC>
+type changeStatusACType = ReturnType<typeof changeStatusAC>
+type addTaskACType = ReturnType<typeof addTaskAC>
+type updateTaskACType = ReturnType<typeof updateTaskAC>
 
 
 export const removeTaskAC = (todolistId: string, taskId: string) => {

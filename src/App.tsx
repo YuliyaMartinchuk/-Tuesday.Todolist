@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -74,9 +74,8 @@ function App() {
     }
 
     const addTodolists = (newTitle: string) => {
-        const newTodolistID = v1()
-        dispatchTodolists(addTodoliststAC(newTitle,newTodolistID))
-        dispatchTasks(addTodoliststAC(newTitle,newTodolistID))
+        dispatchTodolists(addTodoliststAC(newTitle))
+        dispatchTasks(addTodoliststAC(newTitle))
 
     }
 
