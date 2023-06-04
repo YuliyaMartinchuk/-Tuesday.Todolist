@@ -1,8 +1,10 @@
-import {AssocTaskType} from "../App";
+import {AssocTaskType} from "../AppWithRedux";
 import {v1} from "uuid";
 import { addTodoliststACType, removeTodolistACType} from "./todolistsReducer";
 
-export const tasksReducer = (state: AssocTaskType, action: TsarType):AssocTaskType => {
+const initialState: AssocTaskType = {}
+
+export const tasksReducer = (state = initialState, action: ActionsType):AssocTaskType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             // setTasks({...tasks,[todolistId]:tasks[todolistId].filter(el=>el.id!==taskId)})
@@ -54,7 +56,7 @@ export const tasksReducer = (state: AssocTaskType, action: TsarType):AssocTaskTy
     }
 }
 
-export type TsarType = removeTaskACType | changeStatusACType | addTaskACType | updateTaskACType | addTodoliststACType  | removeTodolistACType
+export type ActionsType = removeTaskACType | changeStatusACType | addTaskACType | updateTaskACType | addTodoliststACType  | removeTodolistACType
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type changeStatusACType = ReturnType<typeof changeStatusAC>

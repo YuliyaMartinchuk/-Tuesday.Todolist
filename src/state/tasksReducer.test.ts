@@ -1,5 +1,5 @@
 
-import {AssocTaskType} from "../App";
+import {AssocTaskType} from "../AppWithRedux";
 import {addTaskAC, changeStatusAC, removeTaskAC, tasksReducer, updateTaskAC} from "./tasksReducer";
 import {addTodoliststAC, removeTodolistAC} from "./todolistsReducer";
 
@@ -20,10 +20,7 @@ beforeEach(()=>{
     };
 })
 
-
-
 test('correct task should be deleted from correct array', () => {
-
 
     const action = removeTaskAC( "todolistId2","2");
 
@@ -44,7 +41,6 @@ test('correct task should be deleted from correct array', () => {
 });
 
 test('correct task should be added to correct array', () => {
-
 
     const action = addTaskAC( "todolistId2","juce",);
 
