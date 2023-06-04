@@ -4,16 +4,16 @@ import {tasksReducer} from "./tasksReducer";
 
 
 test('ids should be equals', () => {
-    const startTasksState: AssocTaskType = {} //создали  пустой объект с типизацией
-    const startTodolistsState: TodolistType[] = [] //создали  пустой массив с типизацией
+    const startTasksState: AssocTaskType = {}
+    const startTodolistsState: TodolistType[] = []
 
-    const action = addTodoliststAC('new todolist') //3 типа передается
+    const action = addTodoliststAC('new todolist')
 
-    const endTasksState = tasksReducer(startTasksState, action) //объект,  ключ и пустой массив
-    const endTodolistsState = todolistsReducer(startTodolistsState, action) //массивв
+    const endTasksState = tasksReducer(startTasksState, action)
+    const endTodolistsState = todolistsReducer(startTodolistsState, action)
 
-    const keys = Object.keys(endTasksState) // проверяем сколько ключей. Должен быть один
-    const idFromTasks = keys[0] //тип данны строка idFromTasks. Наша айдишка
+    const keys = Object.keys(endTasksState)
+    const idFromTasks = keys[0]
     const idFromTodolists = endTodolistsState[0].id
 
     expect(idFromTasks).toBe(action.payload.todolistId)
