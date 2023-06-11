@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {AddItemForm} from "./components/AddItemForm";
@@ -15,6 +15,7 @@ import {
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {todoliststsSelector} from "./state/selectors";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
@@ -31,7 +32,8 @@ export type AssocTaskType = {
 function AppWithRedux() {
 
 
-    let todolists = useSelector<AppRootStateType, TodolistType[]>(state=>state.todolists)
+    // let todolists = useSelector<AppRootStateType, TodolistType[]>(state=>state.todolists)
+    let todolists = useSelector(todoliststsSelector)
 
     let tasks = useSelector<AppRootStateType, AssocTaskType>(state=>state.tasks)
 
@@ -55,14 +57,14 @@ function AppWithRedux() {
         dispatch(action)
     }
 
-    const addTask = (todolistId: string, title: string) => {
+    const addTask = useCallback((todolistId: string, title: string) => {
         dispatch(addTaskAC(todolistId, title))
-    }
+    },[dispatch])
 
-    const addTodolists = (newTitle: string) => {
+    const addTodolists = useCallback((newTitle: string) => {
         let action = addTodoliststAC(newTitle)
         dispatch(action)
-    }
+    }, [dispatch])
 
     const updateTask = (todolistId: string, taskId: string, updateTitle: string) => {
         dispatch(updateTaskAC(todolistId, taskId, updateTitle))
