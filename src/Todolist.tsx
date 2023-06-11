@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import {FilterValuesType} from './AppWithRedux';
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -27,12 +27,23 @@ type PropsType = {
     updateTodolistTitle: (todolistId: string, updateTitle: string) => void
 }
 
-export function Todolist(props: PropsType) {
+export const  Todolist = memo((props: PropsType) => {
+    console.log("Todolist")
     const removeTodolist = () => props.removeTodolist(props.todolistId)
 
     const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
     const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
     const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
+
+    let tasks = props.tasks;
+
+    if (props.filter === "active") {
+        tasks = tasks.filter(t => !t.isDone);
+    }
+    if (props.filter === "completed") {
+        tasks = tasks.filter(t => t.isDone);
+    }
+
 
     const addTaskHandler = useCallback((newTitle: string) => {
         props.addTask(props.todolistId, newTitle)
@@ -59,7 +70,7 @@ export function Todolist(props: PropsType) {
         </div>
         <ul>
             {
-                props.tasks.map(t => {
+               tasks.map(t => {
                     const onClickHandler = () => props.removeTask(props.todolistId, t.id)
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         let newIsDoneValue = e.currentTarget.checked;
@@ -86,6 +97,6 @@ export function Todolist(props: PropsType) {
                     onClick={onCompletedClickHandler}>Completed</Button>
         </div>
     </div>
-}
+})
 
 
