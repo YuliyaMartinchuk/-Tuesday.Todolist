@@ -4,7 +4,7 @@ import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
+import Button, {ButtonProps} from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 
 export type TaskType = {
@@ -27,13 +27,13 @@ type PropsType = {
     updateTodolistTitle: (todolistId: string, updateTitle: string) => void
 }
 
-export const  Todolist = memo((props: PropsType) => {
-    console.log("Todolist")
+export const Todolist = memo((props: PropsType) => {
+    // console.log("Todolist")
     const removeTodolist = () => props.removeTodolist(props.todolistId)
 
-    const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
-    const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
-    const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
+    const onAllClickHandler = useCallback(() => props.changeFilter(props.todolistId, "all"),[props.todolistId])
+    const onActiveClickHandler = useCallback(() => props.changeFilter(props.todolistId, "active"), [props.todolistId])
+    const onCompletedClickHandler = useCallback(() => props.changeFilter(props.todolistId, "completed"), [props.todolistId])
 
     let tasks = props.tasks;
 
@@ -47,7 +47,7 @@ export const  Todolist = memo((props: PropsType) => {
 
     const addTaskHandler = useCallback((newTitle: string) => {
         props.addTask(props.todolistId, newTitle)
-    },[ props.addTask,props.todolistId])
+    }, [props.addTask, props.todolistId])
 
     const updateTaskHandler = (taskID: string, updateTitle: string) => {
         props.updateTask(props.todolistId, taskID, updateTitle)
@@ -70,7 +70,7 @@ export const  Todolist = memo((props: PropsType) => {
         </div>
         <ul>
             {
-               tasks.map(t => {
+                tasks.map(t => {
                     const onClickHandler = () => props.removeTask(props.todolistId, t.id)
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         let newIsDoneValue = e.currentTarget.checked;
@@ -89,14 +89,31 @@ export const  Todolist = memo((props: PropsType) => {
             }
         </ul>
         <div>
-            <Button variant={props.filter === 'all' ? "outlined" : "contained"} color="success"
-                    onClick={onAllClickHandler}>All</Button>
-            <Button variant={props.filter === 'active' ? "outlined" : "contained"} color="secondary"
-                    onClick={onActiveClickHandler}>Active</Button>
-            <Button variant={props.filter === 'completed' ? "outlined" : "contained"} color="error"
-                    onClick={onCompletedClickHandler}>Completed</Button>
+            <ButtonWithMemo title={"All"}
+                            variant={props.filter === 'all' ? "outlined" : "contained"}
+                            color={"success"}
+                            onClick={onAllClickHandler}/>
+            <ButtonWithMemo title={"Active"}
+                            variant={props.filter === 'active' ? "outlined" : "contained"}
+                            color={"secondary"}
+                            onClick={onActiveClickHandler}/>
+            <ButtonWithMemo title={"Completed"}
+                            variant={props.filter === 'completed' ? "outlined" : "contained"}
+                            color={"error"}
+                            onClick={onCompletedClickHandler}/>
         </div>
     </div>
 })
 
+type ButtonWithMemoPropsType = {
+    title: string
+    variant: 'text' | 'outlined' | 'contained'
+    color:'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    onClick:()=>void
+}
 
+const ButtonWithMemo = memo((props: ButtonProps) => {
+    return <Button variant={props.variant}
+                   color={props.color}
+                   onClick={props.onClick}>{props.title}</Button>
+})
