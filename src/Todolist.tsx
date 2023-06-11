@@ -1,11 +1,11 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, { memo, useCallback} from 'react';
 import {FilterValuesType} from './AppWithRedux';
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button, {ButtonProps} from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
+import {Task} from "./components/Task";
 
 export type TaskType = {
     id: string
@@ -31,7 +31,7 @@ export const Todolist = memo((props: PropsType) => {
     // console.log("Todolist")
     const removeTodolist = () => props.removeTodolist(props.todolistId)
 
-    const onAllClickHandler = useCallback(() => props.changeFilter(props.todolistId, "all"),[props.todolistId])
+    const onAllClickHandler = useCallback(() => props.changeFilter(props.todolistId, "all"), [props.todolistId])
     const onActiveClickHandler = useCallback(() => props.changeFilter(props.todolistId, "active"), [props.todolistId])
     const onCompletedClickHandler = useCallback(() => props.changeFilter(props.todolistId, "completed"), [props.todolistId])
 
@@ -49,13 +49,19 @@ export const Todolist = memo((props: PropsType) => {
         props.addTask(props.todolistId, newTitle)
     }, [props.addTask, props.todolistId])
 
-    const updateTaskHandler = (taskID: string, updateTitle: string) => {
-        props.updateTask(props.todolistId, taskID, updateTitle)
-    }
 
-    const updateTodolistTitleHandler = (updateTitle: string) => {
+    const updateTodolistTitleHandler = useCallback((updateTitle: string) => {
         props.updateTodolistTitle(props.todolistId, updateTitle)
-    }
+    }, [props.updateTodolistTitle, props.todolistId])
+
+    const removeTask = useCallback((taskId:string) => props.removeTask(props.todolistId, taskId),[props.removeTask,props.todolistId])
+    const changeTaskStatus = useCallback((taskId:string, newIsDoneValue:boolean) => {
+        props.changeTaskStatus(props.todolistId, taskId, newIsDoneValue);
+    },[props.changeTaskStatus,props.todolistId])
+
+    const updateTask = useCallback((taskID: string, updateTitle: string) => {
+        props.updateTask(props.todolistId, taskID, updateTitle)
+    }, [props.updateTask, props.todolistId])
 
     return <div>
         <h3>
@@ -71,20 +77,11 @@ export const Todolist = memo((props: PropsType) => {
         <ul>
             {
                 tasks.map(t => {
-                    const onClickHandler = () => props.removeTask(props.todolistId, t.id)
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        let newIsDoneValue = e.currentTarget.checked;
-                        props.changeTaskStatus(props.todolistId, t.id, newIsDoneValue);
-                    }
-
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <Checkbox onChange={onChangeHandler} checked={t.isDone}/>
-                        <EditableSpan oldTitle={t.title}
-                                      callBack={(updateTitle) => updateTaskHandler(t.id, updateTitle)}/>
-                        <IconButton aria-label="delete" onClick={onClickHandler}>
-                            <DeleteIcon/>
-                        </IconButton>
-                    </li>
+                    return <Task key={t.id}
+                                 task={t}
+                                 removeTask={removeTask}
+                                 changeTaskStatus={changeTaskStatus}
+                                 updateTask={updateTask}/>
                 })
             }
         </ul>
@@ -108,8 +105,8 @@ export const Todolist = memo((props: PropsType) => {
 type ButtonWithMemoPropsType = {
     title: string
     variant: 'text' | 'outlined' | 'contained'
-    color:'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-    onClick:()=>void
+    color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    onClick: () => void
 }
 
 const ButtonWithMemo = memo((props: ButtonProps) => {
