@@ -17,6 +17,7 @@
     "@types/react-redux": "^7.1.25",
     "@types/uuid": "^9.0.1",
     "axios": "^1.3.6",
+    "r": "^0.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.7",
@@ -30,10 +31,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [    ]
   },
   "browserslist": {
     "production": [
@@ -48,6 +51,19 @@
     ]
   },
   "devDependencies": {
-    "formik": "^2.2.9"
+    "@storybook/addon-essentials": "7.0.23",
+    "@storybook/addon-interactions": "7.0.23",
+    "@storybook/addon-links": "7.0.23",
+    "@storybook/blocks": "7.0.23",
+    "@storybook/preset-create-react-app": "7.0.20",
+    "@storybook/react": "7.0.23",
+    "@storybook/react-webpack5": "7.0.23",
+    "@storybook/testing-library": "0.0.14-next.2",
+    "babel-plugin-named-exports-order": "0.0.2",
+    "eslint-plugin-storybook": "^0.6.12",
+    "formik": "^2.2.9",
+    "prop-types": "15.8.1",
+    "storybook": "7.0.23",
+    "webpack": "5.88.0"
   }
 }
