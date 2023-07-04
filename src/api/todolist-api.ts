@@ -16,5 +16,12 @@ export const TodolistApi = {
     createTodoLists(title:string) {
         return instance.post('todo-lists', {title})
     },
+   deleteTodolist(todolistId:string) {
+        return instance.delete(`todo-lists/${todolistId}`)
+    },
+   updateTodolist(todolistId:string, title:string) {
+        return instance.put(`todo-lists/${todolistId}`,{title} )
+    },
+
 }
 
