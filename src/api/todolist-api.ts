@@ -23,18 +23,38 @@ export const TodolistApi = {
         return instance.put<ResponseType, AxiosResponse<ResponseType>, { title: string }>(`todo-lists/${todolistId}`, {title})
     },
     getTasks(todolistId: string) {
-        return instance.get(`todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTaskResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTasks(todolistId: string, title: string) {
-        return instance.post(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<ResponseType<{ items: TaskType }>, AxiosResponse<ResponseType<{ items: TaskType }>>, { title: string }>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTasks(todolistId: string, taskId: string) {
-        return instance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTasks(todolistId: string, taskId: string, title: string) {
-        return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
+    updateTasks(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        return instance.put<ResponseType<{ items: TaskType }>, AxiosResponse<ResponseType<{ items: TaskType }>>, UpdateTaskModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 
+}
+type ResponseType<T = {}> = {
+    resultCode: number
+    messages: string[]
+    data: T
+}
+
+type GetTaskResponseType = {
+    totalCount: number
+    error: string | null
+    items:TaskType[]
+}
+
+type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
 }
 
 type TodolistType = {
@@ -44,25 +64,63 @@ type TodolistType = {
     order: number
 }
 
-type ResponseType<T = {}> = {
-    resultCode: number
-    messages: string[]
-    data: T
+type TaskType = {
+    description: string
+    title: string
+    completed: boolean
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate:string
+    deadline:string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
 }
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+
 
 // type CreateTodoListsResponseType<T={items:TodolistType}> = {
 //     resultCode: number
 //     messages: string[]
 //     data: T
 // }
-//
 // type DeleteTodolistResponseType<T={}> = {
 //     resultCode: number
 //     messages: string[]
 //     data: T
 // }
-//
 // type UpdateTodolistResponseType<T={}> = {
+//     resultCode: number
+//     messages: string[]
+//     data: T
+// }
+//type CreateTaskResponseType<T={items:TaskType}> = {
+//     resultCode: number
+//     messages: string[]
+//     data: T
+// }
+// type DeleteTaskResponseType<T={}> = {
+//     resultCode: number
+//     messages: string[]
+//     data: T
+// }
+// type UpdateTaskResponseType<T={}> = {
 //     resultCode: number
 //     messages: string[]
 //     data: T
