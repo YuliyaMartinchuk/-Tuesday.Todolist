@@ -56,7 +56,7 @@ import React from 'react';
 //         dispatchTasks(removeTaskAC(todolistId, taskId))
 //     }
 //
-//     const changeStatus = (todolistId: string, taskId: string, isDone: boolean) => {
+//     const changeStatus = (todolistId: string, taskId: string, status: TaskStatuses) => {
 //         dispatchTasks(changeStatusAC(todolistId, taskId, isDone))
 //
 //     }

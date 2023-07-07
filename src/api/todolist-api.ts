@@ -45,7 +45,7 @@ type ResponseType<T = {}> = {
 type GetTaskResponseType = {
     totalCount: number
     error: string | null
-    items:TaskType[]
+    items: TaskType[]
 }
 
 type UpdateTaskModelType = {
@@ -57,21 +57,20 @@ type UpdateTaskModelType = {
     deadline: string
 }
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
-    addedDate: Date
+    addedDate: string
     order: number
 }
 
-type TaskType = {
+export type TaskType = {
     description: string
     title: string
-    completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
-    startDate:string
-    deadline:string
+    startDate: string
+    deadline: string
     id: string
     todoListId: string
     order: number
@@ -92,7 +91,6 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 
 
 // type CreateTodoListsResponseType<T={items:TodolistType}> = {

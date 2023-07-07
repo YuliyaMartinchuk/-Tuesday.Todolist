@@ -18,7 +18,7 @@ const meta: Meta<typeof AddItemForm> = {
     argTypes: {
         callBack: {
             description: "Button clicked inside form",
-            //action:"clicked"
+            action:"clicked"
         },
     },
 };

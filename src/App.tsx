@@ -46,7 +46,7 @@ import React from 'react';
 //         setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== taskId)})
 //     }
 //
-//     const changeStatus = (todolistId: string, taskId: string, isDone: boolean) => {
+//     const changeStatus = (todolistId: string, taskId: string, status: TaskStatuses) => {
 //         setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === taskId ? {...el, isDone} : el)})
 //
 //     }

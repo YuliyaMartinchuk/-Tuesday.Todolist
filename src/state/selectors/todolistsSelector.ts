@@ -1,5 +1,5 @@
 import {AppRootStateType} from "../store";
-import {TodolistType} from "../../AppWithRedux";
+import {TodolistDomainType} from "../todolistsReducer";
 
 
-export const todoliststsSelector = (state:AppRootStateType): TodolistType[] => state.todolists
+export const todoliststsSelector = (state:AppRootStateType): TodolistDomainType[] => state.todolists
