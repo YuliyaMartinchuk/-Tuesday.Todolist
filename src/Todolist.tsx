@@ -37,7 +37,7 @@ export const Todolist = memo((props: PropsType) => {
 
     useEffect(()=>{
         dispatch(getTaskTC(props.todolistId))
-    })
+    }, [])
 
     const removeTodolist = () => props.removeTodolist(props.todolistId)
     const onAllClickHandler = useCallback(() => props.changeFilter(props.todolistId, "all"), [props.todolistId])
