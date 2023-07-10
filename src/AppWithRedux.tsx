@@ -5,7 +5,7 @@ import {AddItemForm} from "./components/AddItemForm";
 import {Grid, Paper} from "@mui/material";
 import ButtonAppBar from "./components/ButtonAppBar";
 import Container from '@mui/material/Container'
-import { changeStatusAC, createTaskTC, deleteTaskTC,  updateTaskAC} from "./state/tasksReducer";
+import { changeTaskStatusTC, createTaskTC, deleteTaskTC, updateTaskAC} from "./state/tasksReducer";
 import {
     addTodoliststAC,
     changeFilterAC, FilterValuesType, getTodoliststTC,
@@ -45,7 +45,7 @@ function AppWithRedux() {
     },[dispatch])
 
     const changeStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
-        dispatch(changeStatusAC(todolistId, taskId, status))
+        dispatch(changeTaskStatusTC(todolistId, taskId, status))
 
     },[dispatch])
 
