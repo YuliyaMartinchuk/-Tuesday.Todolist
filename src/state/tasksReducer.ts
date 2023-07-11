@@ -28,7 +28,7 @@ export const tasksReducer = (state = initialState, action: ActionsType): AssocTa
                     el => el.id === action.payload.taskId ? {...el, title: action.payload.updateTitle} : el
                 )}}
         case "ADD-TODOLIST": {
-            return {...state, [action.payload.todolistId]: []}
+            return {...state, [action.payload.todolist.id]: []}
         }
         case "REMOVE-TODOLIST": {
             let copyState = {...state}
@@ -109,8 +109,6 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
             })
     }
 }
-
-
 
 
 export type ActionsType =
