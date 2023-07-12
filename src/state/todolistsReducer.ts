@@ -72,6 +72,13 @@ export const createTodolistTC = (newTitle: string) => (dispatch:Dispatch) => {
         })
 }
 
+export const changeTodolistTC = (todolistId: string, updateTitle: string) => (dispatch:Dispatch) => {
+    TodolistApi.updateTodolist(todolistId, updateTitle)
+        .then((res) => {
+            dispatch(updateTodolistTitleAC(todolistId, updateTitle))
+        })
+}
+
 
 
 type changeFilterACType = ReturnType<typeof changeFilterAC>
