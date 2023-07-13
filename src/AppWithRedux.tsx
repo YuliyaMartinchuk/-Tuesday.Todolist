@@ -12,10 +12,11 @@ import {
 } from "./state/todolistsReducer";
 
 import { useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "./state/store";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "./state/store";
 import {todoliststsSelector} from "./state/selectors";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
-
+import LinearProgress from "@mui/material/LinearProgress";
+import {RequestStatusType} from "./state/appReducer";
 
 // export type TodolistType = {
 //     id: string
@@ -32,6 +33,8 @@ function AppWithRedux() {
 
     let todolists = useSelector(todoliststsSelector)
     let tasks = useSelector<AppRootStateType, AssocTaskType>(state=>state.tasks)
+   const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
@@ -74,6 +77,7 @@ function AppWithRedux() {
     return (
         <div className="App">
             <ButtonAppBar/>
+            {status === 'loading' && <LinearProgress color="secondary" />}
             <Container fixed>
                 <Grid container style={{padding: "10px"}}>
                     <AddItemForm callBack={addTodolists}/>
