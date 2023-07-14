@@ -1,3 +1,5 @@
+import {Dispatch} from "redux";
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 const initialState = {
@@ -15,4 +17,11 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
-type ActionsType = any
+
+export const setStatusAC = (status: RequestStatusType) => ({
+    type: 'APP/SET-STATUS', status
+} as const)
+
+export type setStatusACType = ReturnType<typeof setStatusAC>
+
+type ActionsType = setStatusACType
