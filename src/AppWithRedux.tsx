@@ -17,6 +17,7 @@ import {todoliststsSelector} from "./state/selectors";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
 import LinearProgress from "@mui/material/LinearProgress";
 import {RequestStatusType} from "./state/appReducer";
+import {ErrorSnackbar} from "./components/ErrorSnackbar";
 
 // export type TodolistType = {
 //     id: string
@@ -108,6 +109,7 @@ function AppWithRedux() {
                     }
                 </Grid>
             </Container>
+            <ErrorSnackbar/>
 
         </div>
     );
