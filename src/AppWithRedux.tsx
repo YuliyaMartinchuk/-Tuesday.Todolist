@@ -8,7 +8,7 @@ import Container from '@mui/material/Container'
 import { changeTaskStatusTC, createTaskTC, deleteTaskTC, updateTaskAC} from "./state/tasksReducer";
 import {
     changeFilterAC, changeTodolistTC, createTodolistTC, deleteTodolistTC, FilterValuesType, getTodoliststTC,
-    updateTodolistTitleAC
+    
 } from "./state/todolistsReducer";
 
 import { useSelector} from "react-redux";
@@ -110,7 +110,6 @@ function AppWithRedux() {
                 </Grid>
             </Container>
             <ErrorSnackbar/>
-
         </div>
     );
 }
