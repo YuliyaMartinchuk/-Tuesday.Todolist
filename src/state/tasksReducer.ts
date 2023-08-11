@@ -4,7 +4,6 @@ import { TaskStatuses, TaskType, TodolistApi, UpdateTaskModelType} from "../api/
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {setErrorAC, setStatusAC} from "./appReducer";
-import {Simulate} from "react-dom/test-utils";
 
 const initialState: AssocTaskType = {}
 
@@ -126,8 +125,20 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
         }
         TodolistApi.updateTasks(todolistId,taskId, model)
             .then((res) => {
-                dispatch(changeStatusAC(todolistId,taskId, status))
-                dispatch(setStatusAC("succeeded"))
+                if (res.data.resultCode === Result_Code.OK) {
+                    dispatch(changeStatusAC(todolistId,taskId, status))
+                    dispatch(setStatusAC("succeeded"))
+                }
+                else {
+                    const error = res.data.messages[0];
+                    if (error) {
+                        dispatch(setErrorAC(error))
+                    }
+                    else {
+                        dispatch(setErrorAC("some error"))
+                    }
+                    dispatch(setErrorAC("failed"))
+                }
             })
     }
 }
