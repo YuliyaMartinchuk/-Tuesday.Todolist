@@ -108,6 +108,10 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch:Dis
                dispatch(setStatusAC("failed"))
             }
         })
+        .catch((error)=> {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC("failed"))
+        })
 }
 
 export const changeTaskStatusTC = (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch:Dispatch, getState: ()=>AppRootStateType) => {
@@ -139,6 +143,10 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
                     }
                     dispatch(setErrorAC("failed"))
                 }
+            })
+            .catch((error) => {
+                dispatch(setErrorAC(error.message))
+                dispatch(setStatusAC("failed"))
             })
     }
 }
