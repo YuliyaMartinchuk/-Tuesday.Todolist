@@ -10,6 +10,7 @@ import {TaskStatuses, TaskType} from "./api/todolist-api";
 import {FilterValuesType} from "./state/todolistsReducer";
 import {useAppDispatch} from "./state/store";
 import {getTaskTC} from "./state/tasksReducer";
+import {RequestStatusType} from "./state/appReducer";
 
 // export type TaskType = {
 //     id: string
@@ -21,6 +22,7 @@ type PropsType = {
     todolistId: string
     title: string
     tasks: Array<TaskType>
+    entityStatus: RequestStatusType
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, value: FilterValuesType) => void
     addTask: (todolistId: string, title: string) => void
@@ -76,7 +78,7 @@ export const Todolist = memo((props: PropsType) => {
         <h3>
 
             <EditableSpan oldTitle={props.title} callBack={updateTodolistTitleHandler}/>
-            <IconButton aria-label="delete" onClick={removeTodolist}>
+            <IconButton aria-label="delete" disabled={props.entityStatus === "loading"} onClick={removeTodolist}>
                 <DeleteIcon/>
             </IconButton>
         </h3>

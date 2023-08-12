@@ -1,12 +1,13 @@
 import {TodolistApi, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
-import {setStatusAC} from "./appReducer";
+import {RequestStatusType, setErrorAC, setStatusAC} from "./appReducer";
 
 const initialState: TodolistDomainType[] = []
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
     filter:FilterValuesType
+    entityStatus: RequestStatusType
 }
 
 export const todolistsReducer = (state=initialState, action: ActionsType): TodolistDomainType[] => {
@@ -20,7 +21,7 @@ export const todolistsReducer = (state=initialState, action: ActionsType): Todol
         }
 
         case "ADD-TODOLIST": {
-            return [{...action.payload.todolist, filter:"all"},...state]
+            return [{...action.payload.todolist, filter:"all", entityStatus: "idle"},...state]
         }
 
         case "UPDATE-TODOLIST": {
@@ -28,7 +29,10 @@ export const todolistsReducer = (state=initialState, action: ActionsType): Todol
 
         }
         case "SET-TODOLIST": {
-            return action.payload.todolist.map(tl=>({...tl, filter:"all"}))
+            return action.payload.todolist.map(tl=>({...tl, filter:"all", entityStatus:"idle"}))
+        }
+        case "CHANGE-TODOLIST-STATUS": {
+            return state.map(el => el.id === action.payload.todolistId ? {...el, entityStatus: action.payload.status} : el)
         }
         default:
             return state
@@ -50,6 +54,9 @@ export const addTodoliststAC = (todolist: TodolistType) => {
 export const setTodoliststAC = (todolist: TodolistType[]) => {
     return {type: "SET-TODOLIST", payload: {todolist}} as const}
 
+export const changeTodolistStatusAC = (todolistId: string, status: RequestStatusType) => {
+        return {type: "CHANGE-TODOLIST-STATUS", payload: {todolistId, status}} as const}
+
 
 export const getTodoliststTC = () => (dispatch:Dispatch)=> {
         dispatch(setStatusAC("loading"))
@@ -63,10 +70,16 @@ export const getTodoliststTC = () => (dispatch:Dispatch)=> {
 
 export const deleteTodolistTC = (todolistId: string) => (dispatch:Dispatch) => {
     dispatch(setStatusAC("loading"))
+    dispatch(changeTodolistStatusAC(todolistId, "loading"))
     TodolistApi.deleteTodolist(todolistId)
         .then((res) => {
             dispatch(removeTodolistAC(todolistId))
             dispatch(setStatusAC("succeeded"))
+        })
+        .catch((error) => {
+            dispatch(setErrorAC(error.message))
+            dispatch(setStatusAC("failed"))
+            dispatch(changeTodolistStatusAC(todolistId, "idle"))
         })
 }
 
@@ -95,9 +108,11 @@ export type removeTodolistACType = ReturnType<typeof removeTodolistAC>
 export type addTodoliststACType = ReturnType<typeof addTodoliststAC>
 type updateTodolistTitleACType = ReturnType<typeof updateTodolistTitleAC>
 export type setTodoliststACType = ReturnType<typeof setTodoliststAC>
+export type changeTodolistStatusACType = ReturnType<typeof changeTodolistStatusAC>
 
 export type ActionsType = changeFilterACType
     | removeTodolistACType
     | addTodoliststACType
     | updateTodolistTitleACType
     | setTodoliststACType
+    | changeTodolistStatusACType

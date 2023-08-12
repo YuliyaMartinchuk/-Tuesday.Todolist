@@ -90,15 +90,15 @@ function AppWithRedux() {
                             return <Grid item key={tl.id}>
                                 <Paper elevation={5} style={{padding: "10px"}}>
                                     <Todolist
-
                                         todolistId={tl.id}
                                         title={tl.title}
                                         tasks={tasks[tl.id]}
+                                        filter={tl.filter}
+                                        entityStatus = {tl.entityStatus}
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
-                                        filter={tl.filter}
                                         removeTodolist={removeTodolist}
                                         updateTask={updateTask}
                                         updateTodolistTitle={updateTodolistTitle}
