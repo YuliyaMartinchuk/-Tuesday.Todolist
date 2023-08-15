@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 
 export type PropsType = {
     callBack: (newTitle: string) => void
+    disabled?:boolean
 }
 
 export const AddItemForm = memo((props: PropsType) => {
@@ -47,12 +48,12 @@ export const AddItemForm = memo((props: PropsType) => {
                 value={title}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
+                disabled={props.disabled}
                 id="outlined-basic"
                 label={error ? "Title is required" : "Type out smth."}
                 variant="outlined"
                 size="small"/>
-            <Button variant="contained" onClick={addTask} style={muiStyles}>+</Button>
-
+            <Button variant="contained" onClick={addTask} style={muiStyles} disabled={props.disabled}>+</Button>
         </div>
 
     );
