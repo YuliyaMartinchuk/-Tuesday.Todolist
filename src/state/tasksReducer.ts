@@ -4,6 +4,7 @@ import { TaskStatuses, TaskType, TodolistApi, UpdateTaskModelType} from "../api/
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {setErrorAC, setStatusAC} from "./appReducer";
+import {handleServerNetworkError} from "../utils/error-utils";
 
 const initialState: AssocTaskType = {}
 
@@ -109,8 +110,7 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch:Dis
             }
         })
         .catch((error)=> {
-            dispatch(setErrorAC(error.message))
-            dispatch(setStatusAC("failed"))
+            handleServerNetworkError(dispatch, error.message)
         })
 }
 
@@ -145,8 +145,7 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
                 }
             })
             .catch((error) => {
-                dispatch(setErrorAC(error.message))
-                dispatch(setStatusAC("failed"))
+                handleServerNetworkError(dispatch, error.message)
             })
     }
 }
