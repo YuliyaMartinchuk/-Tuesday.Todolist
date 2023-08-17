@@ -3,8 +3,8 @@ import {addTodoliststACType, removeTodolistACType, setTodoliststACType} from "./
 import { TaskStatuses, TaskType, TodolistApi, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
-import {setErrorAC, setStatusAC} from "./appReducer";
-import {handleServerNetworkError} from "../utils/error-utils";
+import { setStatusAC} from "./appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 const initialState: AssocTaskType = {}
 
@@ -99,14 +99,7 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch:Dis
                 dispatch(setStatusAC("succeeded"))
             }
            else {
-                const error = res.data.messages[0];
-               if (error) {
-                   dispatch(setErrorAC(error))
-               }
-               else {
-                   dispatch(setErrorAC("some error"))
-               }
-               dispatch(setStatusAC("failed"))
+                handleServerAppError(dispatch, res.data)
             }
         })
         .catch((error)=> {
@@ -134,14 +127,7 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
                     dispatch(setStatusAC("succeeded"))
                 }
                 else {
-                    const error = res.data.messages[0];
-                    if (error) {
-                        dispatch(setErrorAC(error))
-                    }
-                    else {
-                        dispatch(setErrorAC("some error"))
-                    }
-                    dispatch(setErrorAC("failed"))
+                    handleServerAppError(dispatch, res.data)
                 }
             })
             .catch((error) => {

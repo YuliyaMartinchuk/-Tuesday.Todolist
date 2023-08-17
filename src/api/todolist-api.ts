@@ -36,7 +36,7 @@ export const TodolistApi = {
     }
 
 }
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     resultCode: number
     messages: string[]
     data: T
