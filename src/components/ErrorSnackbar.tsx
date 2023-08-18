@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
 import {useAppDispatch, useAppSelector} from "../state/store";
@@ -22,7 +22,7 @@ export const ErrorSnackbar = () => {
        dispatch(setErrorAC(null))
     }
     return (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={!!error} autoHideDuration={4000} onClose={handleClose}>
             <Alert onClose={handleClose} severity='error' sx={{width: '100%'}}>
                 {error}
             </Alert>
