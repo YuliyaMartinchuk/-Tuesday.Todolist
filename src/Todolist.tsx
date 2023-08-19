@@ -6,11 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button, {ButtonProps} from '@mui/material/Button';
 import {Task} from "./components/Task";
-import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {TaskStatuses} from "./api/todolist-api";
 import {FilterValuesType} from "./state/todolistsReducer";
 import {useAppDispatch} from "./state/store";
 import {getTaskTC} from "./state/tasksReducer";
 import {RequestStatusType} from "./state/appReducer";
+import {TaskDomainType} from "./AppWithRedux";
 
 // export type TaskType = {
 //     id: string
@@ -21,7 +22,7 @@ import {RequestStatusType} from "./state/appReducer";
 type PropsType = {
     todolistId: string
     title: string
-    tasks: Array<TaskType>
+    tasks: TaskDomainType[]
     entityStatus: RequestStatusType
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, value: FilterValuesType) => void
@@ -59,24 +60,19 @@ export const Todolist = memo((props: PropsType) => {
     const addTaskHandler = useCallback((newTitle: string) => {
         props.addTask(props.todolistId, newTitle)
     }, [props.addTask, props.todolistId])
-
-
     const updateTodolistTitleHandler = useCallback((updateTitle: string) => {
         props.updateTodolistTitle(props.todolistId, updateTitle)
     }, [props.updateTodolistTitle, props.todolistId])
-
     const removeTask = useCallback((taskId:string) => props.removeTask(props.todolistId, taskId),[props.removeTask,props.todolistId])
     const changeTaskStatus = useCallback((taskId:string, status:TaskStatuses) => {
         props.changeTaskStatus(props.todolistId, taskId, status);
     },[props.changeTaskStatus,props.todolistId])
-
     const updateTask = useCallback((taskID: string, updateTitle: string) => {
         props.updateTask(props.todolistId, taskID, updateTitle)
     }, [props.updateTask, props.todolistId])
 
     return <div>
         <h3>
-
             <EditableSpan oldTitle={props.title} callBack={updateTodolistTitleHandler}/>
             <IconButton aria-label="delete" disabled={props.entityStatus === "loading"} onClick={removeTodolist}>
                 <DeleteIcon/>
@@ -92,7 +88,9 @@ export const Todolist = memo((props: PropsType) => {
                                  task={t}
                                  removeTask={removeTask}
                                  changeTaskStatus={changeTaskStatus}
-                                 updateTask={updateTask}/>
+                                 updateTask={updateTask}
+
+                    />
                 })
             }
         </ul>

@@ -24,7 +24,8 @@ const meta: Meta<typeof Task> = {
             deadline:"",
             todoListId: "1",
             order: 0,
-            addedDate: ""
+            addedDate: "",
+            entityStatus: "idle"
         },
     }
 };
@@ -49,7 +50,8 @@ export const TaskIsNotStory: Story = {
             deadline:"",
             todoListId: "1",
             order: 0,
-            addedDate: ""
+            addedDate: "",
+            entityStatus: "idle"
         },
     }
 };

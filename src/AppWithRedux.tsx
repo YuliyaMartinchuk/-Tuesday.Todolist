@@ -26,7 +26,11 @@ import {ErrorSnackbar} from "./components/ErrorSnackbar";
 // }
 
 export type AssocTaskType = {
-    [key: string]: Array<TaskType>
+    [key: string]: TaskDomainType[]
+}
+
+export type TaskDomainType = TaskType & {
+   entityStatus: RequestStatusType
 }
 
 

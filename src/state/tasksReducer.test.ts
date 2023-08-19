@@ -10,29 +10,29 @@ beforeEach(() => {
         "todolistId1": [
             {
                 id: "1", title: "CSS", status: TaskStatuses.New, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: "", entityStatus: "idle"
             },
             {
                 id: "2", title: "JS", status: TaskStatuses.Completed, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: "", entityStatus: "idle"
             },
             {
                 id: "3", title: "React", status: TaskStatuses.New, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId1", order: 0, addedDate: "", entityStatus: "idle"
             },
         ],
         "todolistId2": [
             {
                 id: "1", title: "bread", status: TaskStatuses.New, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: "", entityStatus: "idle"
             },
             {
                 id: "2", title: "milk", status: TaskStatuses.Completed, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: "", entityStatus: "idle"
             },
             {
                 id: "3", title: "tea", status: TaskStatuses.New, description: "", priority: TaskPriorities.Low,
-                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: ""
+                startDate: "", deadline: "", todoListId: "todolistId2", order: 0, addedDate: "", entityStatus: "idle"
             },
         ]
     };

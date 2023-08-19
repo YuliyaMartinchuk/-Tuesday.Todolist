@@ -3,10 +3,11 @@ import Checkbox from "@mui/material/Checkbox";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {TaskStatuses} from "../api/todolist-api";
+import {TaskDomainType} from "../AppWithRedux";
 
 export type TaskPropType = {
-    task: TaskType
+    task: TaskDomainType
     removeTask: (taskId: string) => void
     changeTaskStatus: (taskId: string, status: TaskStatuses) => void
     updateTask: (taskId: string, updateTitle: string) => void
@@ -32,10 +33,10 @@ export const Task = memo(({
 
     return (
         <li className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
-            <Checkbox onChange={onChangeHandler} checked={task.status === TaskStatuses.Completed}/>
+            <Checkbox  onChange={onChangeHandler} checked={task.status === TaskStatuses.Completed}/>
             <EditableSpan oldTitle={task.title}
                           callBack={updateTaskHandler}/>
-            <IconButton aria-label="delete" onClick={onClickHandler}>
+            <IconButton aria-label="delete" disabled={task.entityStatus === "loading"}  onClick={onClickHandler}>
                 <DeleteIcon/>
             </IconButton>
         </li>

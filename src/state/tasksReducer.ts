@@ -3,7 +3,7 @@ import {addTodoliststACType, removeTodolistACType, setTodoliststACType} from "./
 import {TaskStatuses, TaskType, TodolistApi, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
-import {setStatusAC} from "./appReducer";
+import {RequestStatusType, setErrorAC, setStatusAC} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import axios from "axios";
 
@@ -24,11 +24,21 @@ export const tasksReducer = (state = initialState, action: ActionsType): AssocTa
                 )
             }
         }
+        case "CHANGE-ENTITY-STATUS-TASK": {
+            return {
+                ...state, [action.payload.todolistId]: state[action.payload.todolistId].map(
+                    el => el.id === action.payload.taskId ? {...el, entityStatus: action.payload.entityStatus} : el
+                )
+            }
+        }
         case "ADD-TASK": {
-
             return {
                 ...state,
-                [action.payload.task.todoListId]: [action.payload.task, ...state[action.payload.task.todoListId]]
+                [action.payload.task.todoListId]:
+                    [
+                        {...action.payload.task, entityStatus: "idle"},
+                        ...state[action.payload.task.todoListId]
+                    ]
             }
         }
         case "UPDATE-TASK": {
@@ -54,7 +64,10 @@ export const tasksReducer = (state = initialState, action: ActionsType): AssocTa
             return stateCopy
         }
         case "SET-TASK": {
-            return {...state, [action.payload.todolistId]: action.payload.tasks}
+            return {
+                ...state, [action.payload.todolistId]:
+                    action.payload.tasks.map(t => ({...t, entityStatus: "idle"}))
+            }
         }
 
         default:
@@ -71,6 +84,10 @@ export const changeStatusAC = (todolistId: string, taskId: string, status: TaskS
     return {type: "CHANGE-STATUS", payload: {todolistId, taskId, status}} as const
 }
 
+export const changeEntityTaskStatusAC = (todolistId: string, taskId: string, entityStatus: RequestStatusType) => {
+    return {type: "CHANGE-ENTITY-STATUS-TASK", payload: {todolistId, taskId, entityStatus}} as const
+}
+
 export const addTaskAC = (task: TaskType) => {
     return {type: "ADD-TASK", payload: {task}} as const
 }
@@ -84,6 +101,7 @@ export const setTaskAC = (todolistId: string, tasks: TaskType[]) => {
 }
 
 
+
 export const getTaskTC = (todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAC("loading"))
     TodolistApi.getTasks(todolistId)
@@ -95,10 +113,16 @@ export const getTaskTC = (todolistId: string) => (dispatch: Dispatch) => {
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAC("loading"))
+    dispatch(changeEntityTaskStatusAC(todolistId,taskId,"loading"))
     TodolistApi.deleteTasks(todolistId, taskId)
         .then((res) => {
             dispatch(removeTaskAC(todolistId, taskId))
             dispatch(setStatusAC("succeeded"))
+        })
+        .catch((e)=> {
+            dispatch(setErrorAC(e.message))
+            dispatch(setStatusAC("failed"))
+            dispatch(changeEntityTaskStatusAC(todolistId,taskId,"idle"))
         })
 }
 
@@ -184,12 +208,14 @@ export type ActionsType =
     | removeTodolistACType
     | setTodoliststACType
     | setTaskACType
+    |changeEntityTaskStatusACTyoe
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type changeStatusACType = ReturnType<typeof changeStatusAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
 type updateTaskACType = ReturnType<typeof updateTaskAC>
 type setTaskACType = ReturnType<typeof setTaskAC>
+type changeEntityTaskStatusACTyoe = ReturnType<typeof changeEntityTaskStatusAC>
 
 
 
