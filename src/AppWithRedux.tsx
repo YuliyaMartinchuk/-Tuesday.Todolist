@@ -19,11 +19,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {RequestStatusType} from "./state/appReducer";
 import {ErrorSnackbar} from "./components/ErrorSnackbar";
 
-// export type TodolistType = {
-//     id: string
-//     title: string
-//     filter: FilterValuesType
-// }
 
 export type AssocTaskType = {
     [key: string]: TaskDomainType[]
