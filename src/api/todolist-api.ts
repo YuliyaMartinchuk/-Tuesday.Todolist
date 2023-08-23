@@ -8,6 +8,11 @@ const instance = axios.create(
     }
 )
 
+export const authAPI = {
+    login(data:LoginType) {
+        return instance.post<ResponseType<{userId: number|undefined}>, AxiosResponse<ResponseType<{userId: number|undefined}>>, LoginType>(`auth/login`, data)
+    }
+}
 
 export const TodolistApi = {
     getTodolist() {
@@ -64,6 +69,12 @@ export type UpdateDomainTaskModelType = {
     priority?: TaskPriorities
     startDate?: string
     deadline?: string
+}
+
+export type LoginType = {
+    email: string
+    password: string
+    rememberMe: boolean
 }
 
 export type TodolistType = {
