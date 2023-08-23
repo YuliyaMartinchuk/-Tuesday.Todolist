@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {loginTC} from "../state/authReducer";
+import {Navigate} from "react-router-dom";
 
 type ErrorType = {
     email?: string,
@@ -48,6 +49,8 @@ export const Login = () => {
         },
 
     });
+debugger
+    if (isLoggedIn) return <Navigate to={'/'}/>
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
