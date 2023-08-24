@@ -39,6 +39,22 @@ export const loginTC = (data: LoginType) => async (dispatch: Dispatch) => {
     }
 }
 
+export const logOutTC = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setStatusAC("loading"))
+        const res = await authAPI.logOut()
+        if (res.data.resultCode === Result_Code.OK) {
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setStatusAC("succeeded"))
+        } else {
+            handleServerAppError(dispatch, res.data)
+        }
+    } catch (e) {
+        const error = (e as Error).message
+        handleServerNetworkError(dispatch, error);
+    }
+}
+
 
 export const meTC = () => async (dispatch: Dispatch) => {
     try {
