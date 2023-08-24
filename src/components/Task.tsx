@@ -4,7 +4,7 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {TaskStatuses} from "../api/todolist-api";
-import {TaskDomainType} from "../AppWithRedux";
+import {TaskDomainType} from "./versionApp/AppWithRedux";
 
 export type TaskPropType = {
     task: TaskDomainType
@@ -32,14 +32,16 @@ export const Task = memo(({
     }, [updateTask, task.id])
 
     return (
-        <li className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
-            <Checkbox  onChange={onChangeHandler} checked={task.status === TaskStatuses.Completed}/>
+        <div key={task.id}  className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
+            <Checkbox
+                onChange={onChangeHandler}
+                checked={task.status === TaskStatuses.Completed}/>
             <EditableSpan oldTitle={task.title}
                           callBack={updateTaskHandler}/>
             <IconButton aria-label="delete" disabled={task.entityStatus === "loading"}  onClick={onClickHandler}>
                 <DeleteIcon/>
             </IconButton>
-        </li>
+        </div>
     )
 
 })

@@ -1,6 +1,6 @@
 import {addTodoliststAC, TodolistDomainType, todolistsReducer} from "./todolistsReducer";
 import {tasksReducer} from "./tasksReducer";
-import {AssocTaskType} from "../AppWithRedux";
+import {AssocTaskType} from "../components/versionApp/AppWithRedux";
 
 
 

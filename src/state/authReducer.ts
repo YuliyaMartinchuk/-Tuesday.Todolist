@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {authAPI, LoginType} from "../api/todolist-api";
-import {setStatusAC, setStatusACType} from "./appReducer";
-import { Result_Code} from "./tasksReducer";
+import {setInitializedAC, setStatusAC, setStatusACType} from "./appReducer";
+import {Result_Code} from "./tasksReducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 const initialState = {
@@ -12,9 +12,8 @@ type initialStateType = typeof initialState
 
 export const authReducer = (state: initialStateType = initialState, action: ActionsType) => {
     switch (action.type) {
-        case "login/SET-IS-LOGGED-IN": {
+        case "login/SET-IS-LOGGED-IN":
             return {...state, isLoggedIn: action.payload.value}
-        }
         default:
             return state
     }
@@ -24,7 +23,7 @@ export const setIsLoggedInAC = (value: boolean) => {
     return {type: "login/SET-IS-LOGGED-IN", payload: {value}} as const
 }
 
-export const loginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsType>) => {
+export const loginTC = (data: LoginType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setStatusAC("loading"))
         const res = await authAPI.login(data)
@@ -37,6 +36,25 @@ export const loginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsTyp
     } catch (e) {
         const error = (e as Error).message
         handleServerNetworkError(dispatch, error);
+    }
+}
+
+
+export const meTC = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setStatusAC("loading"))
+        const res = await authAPI.me()
+        if (res.data.resultCode === Result_Code.OK) {
+            dispatch(setIsLoggedInAC(true))
+            dispatch(setStatusAC("succeeded"))
+        } else {
+            handleServerAppError(dispatch, res.data)
+        }
+    } catch (e) {
+        const error = (e as Error).message
+        handleServerNetworkError(dispatch, error);
+    } finally {
+        dispatch(setInitializedAC(true))
     }
 }
 

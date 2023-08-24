@@ -1,4 +1,4 @@
-import {AssocTaskType} from "../AppWithRedux";
+import {AssocTaskType} from "../components/versionApp/AppWithRedux";
 import {
     addTodoliststACType,
     removeTodolistACType,

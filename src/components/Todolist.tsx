@@ -1,17 +1,17 @@
 import React, {memo, useCallback, useEffect} from 'react';
 
-import {AddItemForm} from "./components/AddItemForm";
-import {EditableSpan} from "./components/EditableSpan";
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button, {ButtonProps} from '@mui/material/Button';
-import {Task} from "./components/Task";
-import {TaskStatuses} from "./api/todolist-api";
-import {FilterValuesType} from "./state/todolistsReducer";
-import {useAppDispatch} from "./state/store";
-import {getTaskTC} from "./state/tasksReducer";
-import {RequestStatusType} from "./state/appReducer";
-import {TaskDomainType} from "./AppWithRedux";
+import {Task} from "./Task";
+import {TaskStatuses} from "../api/todolist-api";
+import {FilterValuesType} from "../state/todolistsReducer";
+import {useAppDispatch} from "../state/store";
+import {getTaskTC} from "../state/tasksReducer";
+import {RequestStatusType} from "../state/appReducer";
+import {TaskDomainType} from "./versionApp/AppWithRedux";
 
 // export type TaskType = {
 //     id: string
@@ -81,7 +81,7 @@ export const Todolist = memo((props: PropsType) => {
         <div>
             <AddItemForm disabled = {props.entityStatus === "loading"} callBack={addTaskHandler}/>
         </div>
-        <ul>
+        <div>
             {
                 tasks.map(t => {
                     return <Task key={t.id}
@@ -93,8 +93,8 @@ export const Todolist = memo((props: PropsType) => {
                     />
                 })
             }
-        </ul>
-        <div>
+        </div>
+        <div style={{paddingTop: '10px'}}>
             <ButtonWithMemo title={"All"}
                             variant={props.filter === 'all' ? "outlined" : "contained"}
                             color={"success"}
@@ -121,5 +121,6 @@ type ButtonWithMemoPropsType = {
 const ButtonWithMemo = memo((props: ButtonProps) => {
     return <Button variant={props.variant}
                    color={props.color}
-                   onClick={props.onClick}>{props.title}</Button>
+                   onClick={props.onClick}>{props.title}
+    </Button>
 })

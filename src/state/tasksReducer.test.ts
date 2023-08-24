@@ -1,4 +1,4 @@
-import {AssocTaskType} from "../AppWithRedux";
+import {AssocTaskType} from "../components/versionApp/AppWithRedux";
 import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from "./tasksReducer";
 import {addTodoliststAC, removeTodolistAC} from "./todolistsReducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
